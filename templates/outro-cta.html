@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Outro CTA</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=block" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .outro-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0d1117 0%, #1a2332 100%);
+        opacity: 0;
+      }
+
+      .cta-button {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #FFB347;
+        color: #0d1117;
+        font-size: 36px;
+        font-weight: 700;
+        padding: 24px 56px;
+        border-radius: 16px;
+        letter-spacing: -0.01em;
+        box-shadow: 0 8px 32px rgba(255, 179, 71, 0.3);
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+
+      .cta-arrow {
+        font-size: 40px;
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+
+      .wordmark-outro {
+        position: absolute;
+        bottom: 60px;
+        font-size: 18px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0;
+      }
+
+      .url-hint {
+        margin-top: 20px;
+        font-size: 22px;
+        color: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="outro"
+      data-composition-id="outro-cta"
+      data-start="0"
+      data-duration="5"
+      data-width="1920"
+      data-height="1080"
+      data-composition-variables='[
+        {"name": "cta", "type": "string", "default": "Get Started"},
+        {"name": "url", "type": "string", "default": ""},
+        {"name": "wordmark", "type": "string", "default": "Intent Building Hub"}
+      ]'
+    >
+      <div class="outro-container" id="outro-bg">
+        <div class="cta-button" id="cta-btn">
+          <span id="cta-text">Get Started</span>
+          <span class="cta-arrow" id="cta-arrow">→</span>
+        </div>
+        <p class="url-hint" id="url-hint"></p>
+        <span class="wordmark-outro" id="wordmark-text">Intent Building Hub</span>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        var vars = window.__hyperframes && window.__hyperframes.getVariables ? window.__hyperframes.getVariables() : {};
+        if (vars.cta) document.getElementById('cta-text').textContent = vars.cta;
+        if (vars.url) document.getElementById('url-hint').textContent = vars.url;
+        if (vars.wordmark) document.getElementById('wordmark-text').textContent = vars.wordmark;
+
+        var tl = gsap.timeline({ paused: true });
+
+        tl.to('#outro-bg', { opacity: 1, duration: 0.8, ease: 'power2.out' }, 0);
+        tl.to('#cta-btn', { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)' }, 0.5);
+        tl.to('#cta-arrow', { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out' }, 1.0);
+        tl.to('#url-hint', { opacity: 1, duration: 0.5, ease: 'power2.out' }, 1.3);
+        tl.to('#wordmark-text', { opacity: 1, duration: 0.6, ease: 'power2.out' }, 1.5);
+        tl.to('#cta-btn', { scale: 1.03, duration: 0.8, ease: 'sine.inOut', yoyo: true, repeat: 2 }, 2.0);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines['outro-cta'] = tl;
+      })();
+    </script>
+  </body>
+</html>
