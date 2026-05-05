@@ -1,0 +1,22 @@
+{
+  "background": {
+    "start": "#0d1117",
+    "end": "#1a2332"
+  },
+  "accent": {
+    "primary": "#FFB347",
+    "secondary": "#5BBFBF"
+  },
+  "text": {
+    "primary": "#FFFFFF",
+    "secondary": "rgba(255, 255, 255, 0.7)"
+  },
+  "callout": {
+    "fill": "rgba(255, 179, 71, 0.6)",
+    "stroke": "#FFB347"
+  },
+  "shadow": {
+    "text": "0 2px 8px rgba(0, 0, 0, 0.5)",
+    "card": "0 8px 32px rgba(0, 0, 0, 0.4)"
+  }
+}
