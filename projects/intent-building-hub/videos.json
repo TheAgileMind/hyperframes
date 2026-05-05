@@ -1,0 +1,14 @@
+{
+  "project": "intent-building-hub",
+  "cdnBase": "",
+  "videos": [
+    {
+      "id": "assessment-intro",
+      "title": "Where You Stand: Your AI Fluency Snapshot",
+      "duration": "1:45",
+      "page": "/where-you-stand",
+      "mode": "lightbox",
+      "status": "pending-recording"
+    }
+  ]
+}
