@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Callout Overlay</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: transparent;
+      }
+
+      .callout-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      .callout-circle {
+        position: absolute;
+        border: 3px solid #FFB347;
+        border-radius: 50%;
+        background: rgba(255, 179, 71, 0.1);
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+
+      .callout-arrow {
+        position: absolute;
+        opacity: 0;
+      }
+
+      .callout-arrow-line {
+        stroke: #FFB347;
+        stroke-width: 3;
+        fill: none;
+        stroke-dasharray: 200;
+        stroke-dashoffset: 200;
+      }
+
+      .callout-arrow-head {
+        fill: #FFB347;
+      }
+
+      .callout-box {
+        position: absolute;
+        border: 2px solid #FFB347;
+        border-radius: 8px;
+        background: rgba(255, 179, 71, 0.08);
+        transform: scale(0.9);
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="callouts"
+      data-composition-id="callout-overlay"
+      data-start="0"
+      data-duration="120"
+      data-width="1920"
+      data-height="1080"
+      data-composition-variables='[
+        {"name": "callouts", "type": "string", "default": "[]"}
+      ]'
+    >
+      <div class="callout-layer" id="callout-layer"></div>
+    </div>
+
+    <script>
+      (function() {
+        var vars = window.__hyperframes && window.__hyperframes.getVariables ? window.__hyperframes.getVariables() : {};
+        var callouts = [];
+        try {
+          callouts = JSON.parse(vars.callouts || '[]');
+        } catch(e) {
+          callouts = [];
+        }
+
+        var layer = document.getElementById('callout-layer');
+        var tl = gsap.timeline({ paused: true });
+
+        callouts.forEach(function(callout, i) {
+          var id = 'callout-' + i;
+
+          if (callout.type === 'circle') {
+            var el = document.createElement('div');
+            el.className = 'callout-circle';
+            el.id = id;
+            el.style.left = callout.target[0] + 'px';
+            el.style.top = callout.target[1] + 'px';
+            el.style.width = (callout.radius * 2) + 'px';
+            el.style.height = (callout.radius * 2) + 'px';
+            layer.appendChild(el);
+
+            tl.to('#' + id, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' }, callout.start);
+            tl.to('#' + id, { opacity: 0, scale: 1.2, duration: 0.3, ease: 'power2.in' }, callout.start + callout.duration - 0.3);
+
+          } else if (callout.type === 'arrow') {
+            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'callout-arrow');
+            svg.setAttribute('id', id);
+            svg.style.position = 'absolute';
+            svg.style.left = '0';
+            svg.style.top = '0';
+            svg.style.width = '1920px';
+            svg.style.height = '1080px';
+            svg.innerHTML = '<line class="callout-arrow-line" id="' + id + '-line" x1="' +
+              callout.from[0] + '" y1="' + callout.from[1] + '" x2="' +
+              callout.to[0] + '" y2="' + callout.to[1] + '" />' +
+              '<polygon class="callout-arrow-head" id="' + id + '-head" points="' +
+              callout.to[0] + ',' + (callout.to[1] - 8) + ' ' +
+              (callout.to[0] + 16) + ',' + callout.to[1] + ' ' +
+              callout.to[0] + ',' + (callout.to[1] + 8) + '" />';
+            layer.appendChild(svg);
+
+            tl.to('#' + id, { opacity: 1, duration: 0.2 }, callout.start);
+            tl.to('#' + id + '-line', { strokeDashoffset: 0, duration: 0.5, ease: 'power2.out' }, callout.start);
+            tl.to('#' + id, { opacity: 0, duration: 0.3, ease: 'power2.in' }, callout.start + callout.duration - 0.3);
+
+          } else if (callout.type === 'box') {
+            var el = document.createElement('div');
+            el.className = 'callout-box';
+            el.id = id;
+            el.style.left = callout.position[0] + 'px';
+            el.style.top = callout.position[1] + 'px';
+            el.style.width = callout.size[0] + 'px';
+            el.style.height = callout.size[1] + 'px';
+            layer.appendChild(el);
+
+            tl.to('#' + id, { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' }, callout.start);
+            tl.to('#' + id, { opacity: 0, duration: 0.3, ease: 'power2.in' }, callout.start + callout.duration - 0.3);
+          }
+        });
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines['callout-overlay'] = tl;
+      })();
+    </script>
+  </body>
+</html>
