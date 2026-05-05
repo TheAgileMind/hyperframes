@@ -1,0 +1,32 @@
+{
+  "id": "assessment-intro",
+  "title": "Where You Stand: Your AI Fluency Snapshot",
+  "subtitle": "2 minutes • 7 scenarios • Directional signal",
+  "duration": 105,
+  "output": { "width": 1920, "height": 1080, "fps": 30, "codec": "h264" },
+  "scenes": [
+    { "type": "intro", "start": 0, "duration": 5 },
+    { "type": "screen", "start": 5, "duration": 10, "source": "assessment-walkthrough.mp4", "segment": [0, 10] },
+    { "type": "screen", "start": 15, "duration": 10, "source": "assessment-walkthrough.mp4", "segment": [10, 20] },
+    { "type": "screen", "start": 25, "duration": 15, "source": "assessment-walkthrough.mp4", "segment": [20, 35] },
+    { "type": "screen", "start": 40, "duration": 15, "source": "assessment-walkthrough.mp4", "segment": [35, 50] },
+    { "type": "screen", "start": 55, "duration": 15, "source": "assessment-walkthrough.mp4", "segment": [50, 65] },
+    { "type": "screen", "start": 70, "duration": 15, "source": "assessment-walkthrough.mp4", "segment": [65, 80] },
+    { "type": "screen", "start": 85, "duration": 15, "source": "assessment-walkthrough.mp4", "segment": [80, 95] },
+    { "type": "outro", "start": 100, "duration": 5, "cta": "Take the Assessment →", "url": "/where-you-stand" }
+  ],
+  "captions": [
+    { "text": "This takes about 4 minutes", "start": 6, "duration": 3 },
+    { "text": "7 real GFP scenarios — no trick questions", "start": 16, "duration": 3.5 },
+    { "text": "Each maps to an AICOS capability level", "start": 26, "duration": 3 },
+    { "text": "From basic awareness to autonomous agents", "start": 42, "duration": 3.5 },
+    { "text": "You'll get a directional signal — not a grade", "start": 57, "duration": 3.5 },
+    { "text": "Your result maps to Stage 1 learning paths", "start": 72, "duration": 3.5 },
+    { "text": "Then we show you exactly where to start", "start": 87, "duration": 3 }
+  ],
+  "callouts": [
+    { "type": "circle", "target": [960, 540], "radius": 80, "start": 30, "duration": 3 },
+    { "type": "box", "position": [640, 300], "size": [640, 480], "start": 45, "duration": 3 },
+    { "type": "arrow", "from": [1400, 200], "to": [960, 450], "start": 75, "duration": 2.5 }
+  ]
+}
