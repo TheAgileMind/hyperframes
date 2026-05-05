@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Intro Card</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=block" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .intro-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0d1117 0%, #1a2332 100%);
+        position: relative;
+      }
+
+      .accent-glow {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 179, 71, 0.15) 0%, transparent 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+      }
+
+      .title {
+        font-size: 72px;
+        font-weight: 800;
+        color: #FFFFFF;
+        text-align: center;
+        letter-spacing: -0.02em;
+        opacity: 0;
+        transform: translateY(30px);
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        max-width: 1400px;
+        line-height: 1.1;
+      }
+
+      .subtitle {
+        font-size: 32px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+        margin-top: 24px;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .wordmark {
+        position: absolute;
+        bottom: 60px;
+        font-size: 18px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0;
+      }
+
+      .accent-bar {
+        width: 80px;
+        height: 4px;
+        background: #FFB347;
+        border-radius: 2px;
+        margin-top: 32px;
+        opacity: 0;
+        transform: scaleX(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="intro"
+      data-composition-id="intro-card"
+      data-start="0"
+      data-duration="5"
+      data-width="1920"
+      data-height="1080"
+      data-composition-variables='[
+        {"name": "title", "type": "string", "default": "Video Title"},
+        {"name": "subtitle", "type": "string", "default": ""},
+        {"name": "wordmark", "type": "string", "default": "Intent Building Hub"}
+      ]'
+    >
+      <div class="intro-container">
+        <div class="accent-glow" id="glow"></div>
+        <h1 class="title" id="title-text">Video Title</h1>
+        <div class="accent-bar" id="accent-bar"></div>
+        <p class="subtitle" id="subtitle-text"></p>
+        <span class="wordmark" id="wordmark-text">Intent Building Hub</span>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        var vars = window.__hyperframes && window.__hyperframes.getVariables ? window.__hyperframes.getVariables() : {};
+        if (vars.title) document.getElementById('title-text').textContent = vars.title;
+        if (vars.subtitle) document.getElementById('subtitle-text').textContent = vars.subtitle;
+        if (vars.wordmark) document.getElementById('wordmark-text').textContent = vars.wordmark;
+
+        var tl = gsap.timeline({ paused: true });
+
+        tl.to('#glow', { opacity: 1, duration: 1.5, ease: 'power2.out' }, 0);
+        tl.to('#title-text', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.3);
+        tl.to('#accent-bar', { opacity: 1, scaleX: 1, duration: 0.6, ease: 'power2.out' }, 0.8);
+        tl.to('#subtitle-text', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 1.1);
+        tl.to('#wordmark-text', { opacity: 1, duration: 0.8, ease: 'power2.out' }, 1.5);
+        tl.to('.intro-container', { opacity: 0, duration: 0.8, ease: 'power2.in' }, 4.2);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines['intro-card'] = tl;
+      })();
+    </script>
+  </body>
+</html>
