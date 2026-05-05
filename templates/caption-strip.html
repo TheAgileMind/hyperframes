@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Caption Strip</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=block" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: transparent;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .caption-wrapper {
+        position: absolute;
+        bottom: 120px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .caption-bg {
+        background: rgba(13, 17, 23, 0.85);
+        backdrop-filter: blur(8px);
+        border-radius: 12px;
+        padding: 16px 40px;
+        max-width: 1200px;
+      }
+
+      .caption-text {
+        color: #FFFFFF;
+        font-size: 42px;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: -0.01em;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transform: translateY(20px);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="captions"
+      data-composition-id="caption-strip"
+      data-start="0"
+      data-duration="120"
+      data-width="1920"
+      data-height="1080"
+      data-composition-variables='[
+        {"name": "captions", "type": "string", "default": "[]"}
+      ]'
+    >
+      <div class="caption-wrapper">
+        <div class="caption-bg">
+          <p class="caption-text" id="caption-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        var vars = window.__hyperframes && window.__hyperframes.getVariables ? window.__hyperframes.getVariables() : {};
+        var captions = [];
+        try {
+          captions = JSON.parse(vars.captions || '[]');
+        } catch(e) {
+          captions = [];
+        }
+
+        var textEl = document.getElementById('caption-text');
+        var tl = gsap.timeline({ paused: true });
+
+        captions.forEach(function(cap) {
+          var relStart = cap.start;
+          var dur = cap.duration;
+
+          tl.call(function() { textEl.textContent = cap.text; }, null, relStart);
+          tl.to(textEl, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, relStart);
+          tl.to(textEl, { opacity: 0, y: -10, duration: 0.3, ease: 'power2.in' }, relStart + dur - 0.3);
+          tl.set(textEl, { y: 20 }, relStart + dur);
+        });
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines['caption-strip'] = tl;
+      })();
+    </script>
+  </body>
+</html>
